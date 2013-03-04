@@ -1,0 +1,11 @@
+# app config files
+config.php
+config-override.php
+routes.php
+
+# app cache
+cache/*
+
+# zsfe project files
+.buildpath
+.project
