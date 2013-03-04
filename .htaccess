@@ -1,0 +1,20 @@
+
+Options +FollowSymLinks -MultiViews -Indexes 
+
+<IfModule mod_rewrite.c>
+	# rewrite all files that don't exist to index.php
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . index.php [L]
+</IfModule>
+
+# nginx:
+#location / {
+#  try_files $uri $uri/ /index.php;
+#}
+
+# lighttpd > 1.4.24
+#url.rewrite-if-not-file = (
+#  "^/(.*)$" => "/index.php/$1"
+#)
