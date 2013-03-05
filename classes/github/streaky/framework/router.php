@@ -24,7 +24,7 @@ class router {
 		$matches = array();
 		foreach($routes as $route) {
 			
-			if(preg_match($route['match'], $uri, $matches) && self::is_callable($route['callback'])) {
+			if(preg_match($route['match'], $uri, $matches) && is_callable($route['callback'])) {
 				if(!isset($route['method']) || $_SERVER['REQUEST_METHOD'] == $route['method']) {
 					$response = call_user_func($route['callback'], $matches);
 					if($response != false) {
@@ -48,7 +48,7 @@ class router {
 					if(preg_match($route['match'], $pluginUri, $matches)) {
 						if(!isset($route['method']) || $_SERVER['REQUEST_METHOD'] == $route['method']) {
 							$callback = "{$GLOBALS['config']['plugin-ns']}\\{$plugin}::{$route['callback']}";
-							if(self::is_callable($callback)) {
+							if(is_callable($callback)) {
 								$response = call_user_func($callback, $matches);
 								if($response != false) {
 									page::display($response);
