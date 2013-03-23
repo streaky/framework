@@ -1,0 +1,3 @@
+[submodule "src/classes/github/streaky/template"]
+	path = src/classes/github/streaky/template
+	url = git://github.com/streaky/framework.git
