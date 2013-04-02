@@ -3,9 +3,11 @@
 
 $dir = __DIR__;
 
-$p = new Phar("{$dir}/framework.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, 'framework.phar');
+$filename = "framework.phar";
+
+$p = new Phar("{$dir}/{$filename}", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, $filename);
 $p->startBuffering();
-$p->setStub('<?php Phar::mapPhar(); __HALT_COMPILER(); ?>'); 
+$p->setStub("<?php Phar::mapPhar();\ninclude 'phar://{$filename}/bootstrap.php';\n__HALT_COMPILER();\n"); 
 
 $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("{$dir}/src/"), RecursiveIteratorIterator::SELF_FIRST);
 foreach($objects as $name => $object){
