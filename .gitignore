@@ -9,3 +9,7 @@ cache/*
 # zsfe project files
 .buildpath
 .project
+.settings/*
+
+# Built PHAR File
+framework.phar
