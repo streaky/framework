@@ -17,6 +17,14 @@ class autoload {
 		spl_autoload_register("self::loader");
 	}
 	
+	public static function addDir($dir) {
+		if(!in_array($dir, self::$root_dirs)) {
+			self::$root_dirs[] = $dir;
+			return true;
+		}
+		return false;
+	}
+	
 	public static function loader($class) {
 		if(count(self::$root_dirs) == 0) {
 			throw new autoloadException("Autoloader not initialized correctly");
