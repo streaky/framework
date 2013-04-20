@@ -30,7 +30,7 @@ class router {
 			$matches = array();
 			foreach($routes as $route) {
 				
-				if(preg_match($route['match'], $uri, $matches) && is_callable($route['callback'])) {
+				if(isset($route['match']) && preg_match($route['match'], $uri, $matches) && is_callable($route['callback'])) {
 					if(!isset($route['method']) || $_SERVER['REQUEST_METHOD'] == $route['method']) {
 						$response = call_user_func($route['callback'], $matches);
 						if($response != false) {
