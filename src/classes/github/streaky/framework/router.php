@@ -46,6 +46,12 @@ class router {
 			if(preg_match('#^/([a-zA-Z0-9_-]+)/(.{0,})$#U', $uri, $matches)) {
 				$matches[1] = str_replace(array("-"), "_", $matches[1]);
 				$plugin = $matches[1];
+				
+				// check for any master plugin rewrites
+				if(isset($routes["plugin:{$plugin}"])) {
+					$plugin = $routes["plugin:{$plugin}"]['rewrite'];
+				}
+				
 				$pluginUri = "/{$matches[2]}";
 				if(file_exists(ROOTDIR."plugins/{$plugin}/routes.php")) {
 					$pluginRoutes = array();
