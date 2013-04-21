@@ -8,6 +8,19 @@ if(!defined("ROOTDIR")) {
 }
 define("FWDIR", __DIR__."/");
 
+// figure out site absolute path and url
+$path = dirname($_SERVER['PHP_SELF'])."/";
+$proto = "http"; $port = "";
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+	$proto = "https";
+}
+if(($proto == "http" && $_SERVER['SERVER_PORT'] != 80) || ($proto == "https" && $_SERVER['SERVER_PORT'] != 443)) {
+	$port = ":{$_SERVER['SERVER_PORT']}";
+}
+$url = "{$proto}://{$_SERVER['HTTP_HOST']}{$port}{$path}";
+define("SITE_PATH", $path);
+define("SITE_URL", $url);
+
 require_once(ROOTDIR."config.php");
 if(file_exists(ROOTDIR."config-override.php")) {
 	require_once(ROOTDIR."config-override.php");

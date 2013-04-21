@@ -24,7 +24,7 @@ class router {
 			require_once(ROOTDIR."routes.php");
 			
 			// Fix for site path being '/' and making a horrible mess...
-			$p = preg_quote($GLOBALS['config']['site-path'], '#');
+			$p = preg_quote(SITE_PATH, '#');
 			$uri = preg_replace('#^'.$p.'#', '/', $uri);
 			
 			$matches = array();
