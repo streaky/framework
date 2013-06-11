@@ -10,6 +10,11 @@ define("FWDIR", __DIR__."/");
 
 // figure out site absolute path and url
 $path = dirname($_SERVER['PHP_SELF'])."/";
+
+if($path == "//") {
+	$path = "/";
+}
+
 $proto = "http"; $port = "";
 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
 	$proto = "https";
