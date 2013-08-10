@@ -1,6 +1,6 @@
 <?php
 
-namespace github\streaky\framework;
+namespace streaky\framework;
 
 class autoloadException extends \Exception {}
 

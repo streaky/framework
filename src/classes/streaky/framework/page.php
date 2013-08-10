@@ -1,8 +1,8 @@
 <?php
 
-namespace github\streaky\framework;
+namespace streaky\framework;
 
-use \github\streaky\template\template as tpl;
+use \streaky\template\template as tpl;
 
 class pageException extends \Exception {}
 
