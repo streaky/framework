@@ -49,7 +49,5 @@ class autoload {
 				return true;
 			}
 		}
-		
-		throw new autoloadException("Couldn't find class");
 	}
 }

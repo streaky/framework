@@ -12,8 +12,6 @@ class router {
 	 * @throws routerException on no routes (i.e. should be 404)
 	 */
 	public static function init() {
-
-		// TODO: this has too much effectively repeated code, split it into a method
 		
 		try {
 		
@@ -100,12 +98,11 @@ class router {
 					return;
 				}
 			}
-		
+			
+			// rethrow it back out if nothing handled it
+			throw $ex;
 		}
 		
-		
-
-
 		throw new routerException("No matching routes for URI and no suitable 404 handler");
 	}
 }
