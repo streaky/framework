@@ -47,6 +47,11 @@ class element {
 	public $value = "";
 	
 	/**
+	 * @var \streaky\form\validate\response
+	 */
+	public $message = false;
+	
+	/**
 	 * @var Boolean True if the form element is required to be filled in
 	 */
 	public $required = false;
@@ -91,11 +96,13 @@ class element {
 		
 	}
 	
-	/*public static function __set_state($ob) {
-		$ob = new self();
-		foreach($ob as $key => $value) {
-			$ob->$key = $value;
-		}
-		return $ob;
-	}*/
+	/**
+	 * Reset the item to a blank state without messages, classes, and an empty value 
+	 */
+	public function reset() {
+		$this->value = "";
+		$this->classes_input = array();
+		$this->classes_outer = array();
+		$this->message = false;
+	}
 }

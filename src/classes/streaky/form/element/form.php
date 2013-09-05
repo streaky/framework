@@ -64,7 +64,7 @@ class form {
 	/**
 	 * @param string $item_name
 	 * @throws formException
-	 * @return \streaky\form\element\baseInput
+	 * @return \streaky\form\base\element
 	 */
 	public function &getItemByName($item_name) {
 		foreach($this->items as $item) {
@@ -73,6 +73,12 @@ class form {
 			}
 		}
 		throw new formException("Unknown item");
+	}
+	
+	public function reset() {
+		foreach($this->items as &$item) {
+			$item->reset();
+		}
 	}
 }
 

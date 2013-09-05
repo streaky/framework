@@ -4,10 +4,6 @@ namespace streaky\form;
 
 class validateException extends \Exception {}
 
-class validateInfo extends validateException {}
-class validateWarn extends validateException {}
-class validateError extends validateException {}
-
 class validate {
 	
 	public static function getValidationItems($callback) {
@@ -50,19 +46,20 @@ class validate {
 				$item->value = $response->value;
 				
 				if($response->message != "") {
-					$item->help = $response->message;
+					$item->message = $response;
+					//$item->help = $response->message;
 				}
 				switch($response->error) {
-					case validateResponse::ok:
+					case validate\response::ok:
 						$item->classes_outer[] = "success";
 					break;
-					case validateResponse::info:
+					case validate\response::info:
 						$item->classes_outer[] = "info";
 					break;
-					case validateResponse::warn:
+					case validate\response::warn:
 						$item->classes_outer[] = "warning";
 					break;
-					case validateResponse::error:
+					case validate\response::error:
 						$item->classes_outer[] = "error";
 						$valid = false;
 					break;
@@ -80,15 +77,22 @@ class validate {
 	 * @param string $name
 	 * @param string $value
 	 * @param boolean|array $extra
-	 * @return \streaky\form\validateResponse
+	 * @return \streaky\form\validate\response
 	 */
 	public static function validateItem(\streaky\form\element\form &$form, $name, $value, $extra = false) {
 		$class = $form->validate;
-		$response = new validateResponse();
+		$response = new validate\response();
 		
 		$item = $form->getItemByName($name);
+		
+		if($item instanceof \streaky\form\element\select) {
+			if($item->enforce == true && !isset($item->options[$value])) {
+				$item->value = $value = "";
+			}
+		}
+		
 		if($item->required == true && trim($value) == "") {
-			$response->error = validateResponse::error;
+			$response->error = validate\response::error;
 			$response->message = "This item is required";
 			return $response;
 		}
@@ -97,35 +101,25 @@ class validate {
 		if(!in_array($name, $items)) {
 			// probably just a required field with no further validation
 			$response->value = $value;
-			$response->error = validateResponse::ok;
+			$response->error = validate\response::ok;
 			return $response;
 		}
 		
 		try {
 			$class::$name($value, $extra);
-		} catch(validateError $ex) {
-			$response->error = validateResponse::error;
+		} catch(validate\error $ex) {
+			$response->error = validate\response::error;
 			$response->message = $ex->getMessage();
-		} catch(validateWarn $ex) {
-			$response->error = validateResponse::warn;
+		} catch(validate\warn $ex) {
+			$response->error = validate\response::warn;
 			$response->message = $ex->getMessage();
-		} catch(validateInfo $ex) {
-			$response->error = validateResponse::info;
+		} catch(validate\info $ex) {
+			$response->error = validate\response::info;
+			$response->message = $ex->getMessage();
+		} catch(validate\ok $ex) {
 			$response->message = $ex->getMessage();
 		}
 		$response->value = $value;
 		return $response;
 	}
-}
-
-class validateResponse {
-	
-	const ok = 0;
-	const info = 1;
-	const warn = 2;
-	const error = 3;
-	
-	public $value = "";
-	public $message = "";
-	public $error = 0;
 }

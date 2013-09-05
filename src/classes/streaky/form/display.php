@@ -20,6 +20,8 @@ class display {
 			tpl::addPath(__DIR__."/templates/");
 			self::$form_added = true;
 		}
+		// clear out messages from any other forms in the request
+		\tpl::assign("form-messages", "");
 		$this->form = $form;
 	}
 	

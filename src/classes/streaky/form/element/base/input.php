@@ -17,9 +17,12 @@ class input extends element {
 	}
 	
 	public function getHtml(&$form, &$validate) {
+		
 		if(trim($this->id) == "") {
 			$item->id = "{$form->id}-{$this->name}";
 		}
+		
+		\tpl::assign("item-id", $this->id);
 		
 		if(in_array($this->name, $validate)) {
 			$this->classes_input[] = "validate-item";
@@ -34,7 +37,27 @@ class input extends element {
 			}
 		}
 		
-		\tpl::assign("item-id", $this->id);
+		$message = "";
+		if($this->message != false && $this->message->message != "") {
+			\tpl::assign("popover-message", $this->message->message);
+			switch($this->message->error) {
+				case \streaky\form\validate\response::ok;
+					\tpl::assign("popover-classes", "icon icon-ok-sign");
+				break;
+				case \streaky\form\validate\response::info;
+					\tpl::assign("popover-classes", "icon icon-info-sign");
+				break;
+				case \streaky\form\validate\response::warn;
+					\tpl::assign("popover-classes", "icon icon-warning-sign");
+				break;
+				case \streaky\form\validate\response::error;
+					\tpl::assign("popover-classes", "icon icon-exclamation-sign");
+				break;
+			}
+			$message = \tpl::fetch("ui/popover.php");
+		}
+		\tpl::append("form-messages", $message);
+		
 		\tpl::assign("item-value", $this->value);
 		\tpl::assign("item-label", $this->label);
 		\tpl::assign("item-name", $this->name);
@@ -49,12 +72,4 @@ class input extends element {
 	public function validate() {
 		
 	}
-	
-	/*public static function __set_state($ob) {
-		$ob = new self();
-		foreach($ob as $key => $value) {
-			$ob->$key = $value;
-		}
-		return $ob;
-	}*/
 }

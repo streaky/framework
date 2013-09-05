@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 
-$(function () {
+$('document').ready(function() {
 	$("form#<?php \tpl::s("form-id"); ?> .validate-item:not(.no-auto-validate)").each(function(i, el) {
 		$(el).blur(function(eventData) {
 			var extra = <?php \tpl::e("form-items-extra"); ?>;
@@ -26,5 +26,8 @@ $(function () {
 			formValidate(el, send_extra, '<?php \tpl::s("form-validate-url"); ?>');
 		});
 	});
+
+<?php \tpl::e("form-messages"); ?>
+	
 });
 </script>
