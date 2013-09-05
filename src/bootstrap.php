@@ -35,3 +35,5 @@ require_once(FWDIR."classes/streaky/framework/autoload.php");
 
 // Autoloader will always use the first it matches so it's important to use any user overrides (ROOTDIR) first
 \streaky\framework\autoload::init(array(ROOTDIR, FWDIR));
+
+class tpl extends \streaky\template\template {};
