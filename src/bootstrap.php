@@ -15,16 +15,21 @@ if($path == "//") {
 	$path = "/";
 }
 
-$proto = "http"; $port = "";
-if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
-	$proto = "https";
+
+$proto = "cli";
+
+if(isset($_SERVER['SERVER_PORT']) && isset($_SERVER['HTTP_HOST'])) {
+	$proto = "http"; $port = "";
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+		$proto = "https";
+	}
+	if(($proto == "http" && $_SERVER['SERVER_PORT'] != 80) || ($proto == "https" && $_SERVER['SERVER_PORT'] != 443)) {
+		$port = ":{$_SERVER['SERVER_PORT']}";
+	}
+	$url = "{$proto}://{$_SERVER['HTTP_HOST']}{$port}{$path}";
+	define("SITE_PATH", $path);
+	define("SITE_URL", $url);
 }
-if(($proto == "http" && $_SERVER['SERVER_PORT'] != 80) || ($proto == "https" && $_SERVER['SERVER_PORT'] != 443)) {
-	$port = ":{$_SERVER['SERVER_PORT']}";
-}
-$url = "{$proto}://{$_SERVER['HTTP_HOST']}{$port}{$path}";
-define("SITE_PATH", $path);
-define("SITE_URL", $url);
 
 require_once(ROOTDIR."config.php");
 if(file_exists(ROOTDIR."config-override.php")) {
