@@ -1,0 +1,17 @@
+{
+  "name": "streaky/framework",
+  "type": "library",
+  "description": "My Simple Framework",
+  "homepage": "https://github.com/streaky/framework/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Streaky",
+      "email": "streaky@mybrokenlogic.com",
+      "homepage": "https://github.com/streaky/"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  }
+}
