@@ -19,7 +19,7 @@ class router {
 			$uri = explode("?", $_SERVER['REQUEST_URI'], 2); $uri = $uri[0];
 			
 			$routes = array();
-			require_once(ROOTDIR."routes.php");
+			require_once(ROOTDIR."/routes.php");
 			
 			// Fix for site path being '/' and making a horrible mess...
 			$p = preg_quote(SITE_PATH, '#');
@@ -51,9 +51,9 @@ class router {
 				}
 				
 				$pluginUri = "/{$matches[2]}";
-				if(file_exists(ROOTDIR."plugins/{$plugin}/routes.php")) {
+				if(file_exists(ROOTDIR."/plugins/{$plugin}/routes.php")) {
 					$pluginRoutes = array();
-					require_once(ROOTDIR."plugins/{$plugin}/routes.php");
+					require_once(ROOTDIR."/plugins/{$plugin}/routes.php");
 					$matches = array();
 					foreach($pluginRoutes as $route) {
 						if(preg_match($route['match'], $pluginUri, $matches)) {
@@ -86,9 +86,9 @@ class router {
 		
 		} catch(routerException $ex) {
 
-			if(file_exists(ROOTDIR."plugins/error/class.php") && file_exists(ROOTDIR."plugins/error/routes.php")) {
+			if(file_exists(ROOTDIR."/plugins/error/class.php") && file_exists(ROOTDIR."/plugins/error/routes.php")) {
 				$pluginRoutes = array();
-				require_once(ROOTDIR."plugins/error/routes.php");
+				require_once(ROOTDIR."/plugins/error/routes.php");
 				if(isset($pluginRoutes['__error_404'])) {
 					$detail = array("type" => 404, "uri" => $uri, "request-uri" => $_SERVER['REQUEST_URI'], "message" => $ex->getMessage());
 					$response = call_user_func($GLOBALS['config']['plugin-ns'].'\error::'.$pluginRoutes['__error_404']['callback'], $detail);
